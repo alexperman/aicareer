@@ -1,0 +1,177 @@
+# RULES
+- Every time you choose to apply a rule(s), explicitly state the rule(s) in the output.
+- You can abbreviate the rule description to a single word or phrase.
+
+
+## RULE NUMBER 1 - PRESERVE THE CODEBASE!  
+- DO NOT DESTROY ANYTHING. DO NOT BREAK WORKING CODE. 
+- ONLY FIX THE THING YOU ARE TASKED TO FIX. 
+- DO NOT "FIX" SOMETHING TO THE DETRIMENT OF A WORKING FUNCTION OR CODE. 
+- KEEP THINGS CLEAN, DO NOT CREATE DUPLICATES OF EXISTING PAGES OR FEATURES, CHECK FOR THEIR EXISTENCE FIRST.
+
+
+## RULE NUMBER 2 - FOLLOW THE CODE STYLE AND CONVENTIONS:
+- FOLLOW THE CODE STYLE AND CONVENTIONS.
+- DO NOT CHANGE THE CODE STYLE OR CONVENTIONS.
+
+## RULE NUMBER 3 - FOLLOW THE CODE AND STYLE GUIDELINES:
+- FOLLOW THE CODE AND STYLE GUIDELINES.
+- DO NOT CHANGE THE CODE AND STYLE GUIDELINES.
+
+## Project Name and Overview
+
+### Project Name
+- Project Name: AICareer
+
+### Overview
+- AICareer is a comprehensive career platform that leverages AI to enhance the job search and recruitment process. 
+- It offers features like resume optimization, job matching, and personalized interview preparation.
+
+
+## Core functionality
+### User Authentication & Profiles
+- Supabase-based authentication
+- Extended user profiles
+- Role-based access (Job Seekers, Recruiters, Agency Admins)
+- Profile customization and management
+
+### Resume Management
+- Resume upload and parsing
+- Skills and experience extraction
+- Education and certification tracking
+- Language proficiency tracking
+- Resume version control
+
+### Job Search & Management
+- Job post discovery
+- Saved jobs tracking
+- Application management
+- Job alerts with AI recommendations
+- Application status tracking
+
+### AI-Powered Interview Preparation
+- Question generation based on job requirements
+- Answer suggestions and feedback
+- Mock interview simulations
+- Industry-specific preparation
+- Technical interview preparation
+
+### Career Development
+- Knowledge base access
+- Skill gap analysis
+- Career path recommendations
+- Industry insights
+- Learning resources
+
+### Offer Management & Negotiation
+- Salary tracking and comparison
+- Offer evaluation assistance
+- Negotiation strategy suggestions
+- Benefits analysis
+- Market rate comparisons
+
+### Agency & Recruiter Features
+- Agency profile management
+- Team member management
+- Candidate tracking
+- Application review system
+- Agency analytics
+
+### Communication System
+- Real-time chat
+- Message history
+- File sharing
+- Chat notifications
+- Contact management
+
+### Feedback & Reviews
+- Company reviews
+- Interview experience sharing
+- Recruiter ratings
+- Anonymous feedback system
+- Review moderation
+
+### Analytics & Reporting
+- Application success metrics
+- Interview performance tracking
+- Career progression analytics
+- Salary trends
+- Industry insights
+
+### Security & Privacy
+- Row Level Security (RLS)
+- Data encryption
+- Privacy controls
+- GDPR compliance
+- Access logging
+
+### Integration & API
+- External job board integration
+- Calendar integration
+- Email notifications
+- Document export/import
+- API access for partners
+
+## Code and Style Guidelines
+- Use ESLint with Next.js, TypeScript, and Prettier rules.
+- Enable `strict: true` in TypeScript.
+- Integrate Prettier with ESLint and Husky pre-commit hooks.
+- Use `eslint-plugin-react-hooks` and `eslint-plugin-import`.
+- Configure absolute imports via `baseUrl` in `tsconfig.json`.
+
+## Architecture
+- Use Next.js App Router with Server Components.
+
+
+
+## Tech Stack
+- Framework: Next.js 14 (App Router, Server Components).
+- Deployment: Fly.io.
+- Database: Supabase (PostgreSQL, Auth).
+- Styling: Shadcn/UI with TailwindCSS.
+- Language: TypeScript.
+
+## Naming Conventions
+- PascalCase for components, camelCase for variables and hooks.
+- kebab-case for files and folders.
+- RESTful naming for API routes (e.g., `/api/users`).
+
+## State Management
+- Use React Context and Next.js Server Actions.
+- Minimize client-side state; consider Zustand or Jotai.
+
+## UI and Styling
+- Use Shadcn/UI components with TailwindCSS.
+- Minimize custom CSS; follow responsive design with Tailwind breakpoints.
+
+## Performance Optimization
+- Use React Server Components and lazy loading (`next/dynamic`).
+- Optimize images with Next.js Image and `priority`.
+- Use Edge Functions and Incremental Static Regeneration (ISR).
+- Monitor performance with Vercel Analytics and Lighthouse.
+
+## Error Handling
+- Use custom error pages (`pages/404.tsx`, `pages/500.tsx`).
+- Integrate Sentry or Logflare for error logging.
+
+## Testing
+- Write unit tests for components and utilities.
+- Implement E2E tests for critical flows.
+- Monitor memory usage and performance.
+
+## Security
+- Enforce Content Security Policy.
+- Sanitize user inputs.
+- Handle sensitive data securely.
+
+## Documentation
+- Maintain README with setup and API details.
+- Document `manifest.json` and complex logic.
+- Use comments for permissions and critical code.
+
+## Development Workflow
+- Use version control and code reviews.
+- Follow semantic versioning and maintain changelog.
+- Test across multiple environments.
+
+
