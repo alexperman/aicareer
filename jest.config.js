@@ -12,5 +12,4 @@ module.exports = {
       tsconfig: 'tsconfig.json',
     }],
   },
-  envFile: '.env.test',
-}
+};
