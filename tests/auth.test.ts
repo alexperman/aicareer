@@ -1,5 +1,4 @@
 import dotenv from 'dotenv';
-import { createClient } from '@supabase/supabase-js';
 
 describe('Supabase Auth Tests', () => {
   // Load environment variables
@@ -99,7 +98,7 @@ describe('Supabase Auth Tests', () => {
 
     // Mock the createClient function
     jest.mock('@supabase/supabase-js', () => ({
-      createClient: jest.fn().mockReturnValue(mockSupabase as any)
+      createClient: jest.fn().mockReturnValue(mockSupabase as never)
     }));
   });
 
