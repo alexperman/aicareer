@@ -1,31 +1,42 @@
-/** @type {import('jest').Config} */
+/** @type {import('ts-jest').JestConfigWithTsJest} */
 module.exports = {
-  testEnvironment: 'jsdom',
-  transform: {
-    '^.+\\.(ts|tsx)$': ['ts-jest', {
-      tsconfig: 'tsconfig.jest.json',
-    }],
-    '^.+\\.(js|jsx)$': ['babel-jest', { presets: ['next/babel'] }],
-  },
+  preset: 'ts-jest',
+  testEnvironment: 'jest-environment-jsdom',
   moduleNameMapper: {
     '^@/(.*)$': '<rootDir>/src/$1',
-    '\\.(css|less|sass|scss)$': 'identity-obj-proxy',
+    '\\.(css|less|scss|sass)$': 'identity-obj-proxy',
   },
-  setupFilesAfterEnv: [
-    '<rootDir>/jest.setup.ts',
-    '<rootDir>/tests/setup-env.ts',
-  ],
-  transformIgnorePatterns: [
-    '/node_modules/',
-    '^.+\\.module\\.(css|sass|scss)$',
-  ],
-  testPathIgnorePatterns: ['/node_modules/', '/.next/'],
+  transform: {
+    '^.+\\.(ts|tsx)$': [
+      'ts-jest',
+      {
+        tsconfig: 'tsconfig.jest.json',
+        diagnostics: true,
+        isolatedModules: false
+      }
+    ],
+    '^.+\\.(js|jsx)$': [
+      'babel-jest',
+      {
+        presets: ['@babel/preset-react'],
+        plugins: ['@babel/plugin-transform-runtime']
+      }
+    ],
+  },
+  transformIgnorePatterns: ['<rootDir>/node_modules/(?!(@testing-library)/)', '<rootDir>/node_modules/next/dist/'],
+  setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
+  testPathIgnorePatterns: ['<rootDir>/.next/', '<rootDir>/node_modules/'],
+  moduleDirectories: ['node_modules', 'src'],
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
-  collectCoverageFrom: [
-    'src/**/*.{js,jsx,ts,tsx}',
-    '!src/**/*.d.ts',
-    '!**/node_modules/**',
-  ],
-  testMatch: ['<rootDir>/**/*.test.(js|jsx|ts|tsx)'],
-  moduleDirectories: ['node_modules', '<rootDir>'],
-}
+  testMatch: ['**/__tests__/**/*.[jt]s?(x)', '**/?(*.)+(spec|test).[tj]s?(x)'],
+  globals: {
+    'ts-jest': {
+      tsconfig: 'tsconfig.jest.json',
+      diagnostics: true,
+      isolatedModules: false
+    }
+  },
+  testEnvironmentOptions: {
+    customExportConditions: ['node', 'node-addons']
+  },
+};
