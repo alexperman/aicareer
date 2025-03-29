@@ -1,4 +1,3 @@
-
 const mockAuth = {
   signUp: jest.fn().mockResolvedValue({
     data: { user: { id: 'test-user-id' } },
@@ -6,6 +5,10 @@ const mockAuth = {
   }),
   signOut: jest.fn(),
   user: jest.fn(() => ({ id: 'test-user-id' })),
+  getUser: jest.fn().mockResolvedValue({
+    data: { user: { id: 'test-user-id' } },
+    error: null
+  }),
 };
 
 const mockFrom = jest.fn((table) => {
@@ -28,7 +31,7 @@ const mockClient = {
   then: jest.fn(),
 };
 
-export const mockSupabase = {
+const mockSupabase = {
   ...mockClient,
   auth: {
     ...mockClient.auth,
@@ -38,4 +41,5 @@ export const mockSupabase = {
   then: mockClient.then
 };
 
-export default mockClient;
+module.exports = mockClient;
+module.exports.mockSupabase = mockSupabase;
