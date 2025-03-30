@@ -23,7 +23,7 @@ CREATE POLICY "Users can update their own avatars"
     EXISTS (
       SELECT 1 FROM public.profiles p
       WHERE p.id = auth.uid() AND
-      p.avatar_url = storage.generate_public_url(bucket_id, name)
+      p.avatar_url LIKE '%' || name
     )
   );
 
@@ -35,7 +35,7 @@ CREATE POLICY "Users can delete their own avatars"
     EXISTS (
       SELECT 1 FROM public.profiles p
       WHERE p.id = auth.uid() AND
-      p.avatar_url = storage.generate_public_url(bucket_id, name)
+      p.avatar_url LIKE '%' || name
     )
   );
 
