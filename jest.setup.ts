@@ -1,4 +1,5 @@
 import '@testing-library/jest-dom';
+import { expect } from '@jest/globals';
 
 // Mock Next.js navigation
 jest.mock('next/navigation', () => ({
@@ -24,8 +25,14 @@ jest.mock('sonner', () => ({
   toast: jest.fn(),
 }));
 
-// Add custom matchers for testing
+// Extend Jest's expect to include custom matchers
 expect.extend({
+  toBeInTheDocument(received: any) {
+    return {
+      pass: received !== null,
+      message: () => `Expected element to be in the document but it was not found`
+    };
+  },
   toHaveBeenCalledWithMatch(received, ...expected) {
     const pass = this.equals(
       received.mock.calls.some((call: unknown[]) => 
@@ -48,6 +55,7 @@ declare global {
   namespace jest {
     interface Matchers<R> {
       toHaveBeenCalledWithMatch(...args: unknown[]): R;
+      toBeInTheDocument(): R;
     }
   }
 }

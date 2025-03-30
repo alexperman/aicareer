@@ -12,18 +12,15 @@ module.exports = {
       {
         tsconfig: 'tsconfig.jest.json',
         diagnostics: true,
-        isolatedModules: false,
       }
     ],
-    '^.+\\.(js|jsx)$': [
-      'babel-jest',
-      {
-        presets: ['@babel/preset-react'],
-        plugins: ['@babel/plugin-transform-runtime']
-      }
-    ],
+    '^.+\\.(js|jsx)$': 'babel-jest',
   },
-  transformIgnorePatterns: ['<rootDir>/node_modules/(?!(@testing-library)/)', '<rootDir>/node_modules/next/dist/'],
+  transformIgnorePatterns: [
+    '<rootDir>/node_modules/(?!(@testing-library)/)',
+    '<rootDir>/node_modules/next/dist/',
+    '<rootDir>/node_modules/react/',
+  ],
   setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
   testPathIgnorePatterns: ['<rootDir>/.next/', '<rootDir>/node_modules/'],
   moduleDirectories: ['node_modules', 'src'],
@@ -33,7 +30,6 @@ module.exports = {
     'ts-jest': {
       tsconfig: 'tsconfig.jest.json',
       diagnostics: true,
-      isolatedModules: false,
     }
   },
   testEnvironmentOptions: {
