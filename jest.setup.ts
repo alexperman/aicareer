@@ -1,61 +1,28 @@
 import '@testing-library/jest-dom';
-import { setupServer } from 'msw/node';
-import { handlers } from './tests/mocks/handlers';
 
-// Setup MSW server
-export const server = setupServer(...handlers);
-
-// Establish API mocking before all tests
-beforeAll(() => server.listen());
-// Reset any request handlers that we may add during the tests
-afterEach(() => server.resetHandlers());
-// Clean up after the tests are finished
-afterAll(() => server.close());
-
-// Mock next/navigation
+// Mock Next.js navigation
 jest.mock('next/navigation', () => ({
-  useRouter: jest.fn(() => ({
+  useRouter: () => ({
     push: jest.fn(),
-    replace: jest.fn(),
     refresh: jest.fn(),
-    back: jest.fn(),
-    prefetch: jest.fn(),
-  })),
-  usePathname: jest.fn(() => '/'),
-  useSearchParams: jest.fn(() => new URLSearchParams()),
+  }),
 }));
 
-// Mock Supabase client
-jest.mock('@/utils/supabase/client', () => {
-  const mockClient = {
-    auth: {
-      signUp: jest.fn(),
-      signIn: jest.fn(),
-      signOut: jest.fn(),
-      getUser: jest.fn(),
-      getSession: jest.fn(),
-      onAuthStateChange: jest.fn(),
-      user: { id: 'test-user-id' },
-    },
-    from: jest.fn().mockImplementation(() => ({
-      select: jest.fn().mockReturnThis(),
-      insert: jest.fn().mockReturnThis(),
-      update: jest.fn().mockReturnThis(),
-      delete: jest.fn().mockReturnThis(),
-      eq: jest.fn().mockReturnThis(),
-      single: jest.fn().mockReturnThis(),
-      match: jest.fn().mockReturnThis(),
-      order: jest.fn().mockReturnThis(),
-      limit: jest.fn().mockReturnThis(),
-      data: null,
-      error: null,
-    })),
-  };
-  
-  return {
-    createClient: jest.fn(() => mockClient),
-  };
-});
+// Mock Supabase
+jest.mock('@/utils/supabase/client', () => ({
+  createClient: () => ({
+    from: jest.fn().mockReturnThis(),
+    update: jest.fn().mockReturnThis(),
+    eq: jest.fn().mockReturnThis(),
+    select: jest.fn().mockReturnThis(),
+    single: jest.fn(),
+  }),
+}));
+
+// Mock Sonner
+jest.mock('sonner', () => ({
+  toast: jest.fn(),
+}));
 
 // Add custom matchers for testing
 expect.extend({

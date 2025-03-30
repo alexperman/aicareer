@@ -1,5 +1,4 @@
 import { createClient } from '@supabase/supabase-js';
-import { NextRequest, NextResponse } from 'next/server';
 
 export interface SessionRecoveryOptions {
   maxAge: number;
@@ -23,10 +22,21 @@ const defaultOptions: SessionRecoveryOptions = {
   },
 };
 
+interface SessionType {
+  access_token: string;
+  refresh_token: string;
+  expires_at: number;
+}
+
+interface SessionResponseType {
+  data: { session: SessionType | null };
+  error: Error | null;
+}
+
 export async function getSessionFromCookie(
-  req: NextRequest,
+  req: { cookies: { get: (name: string) => { value: string } | undefined } },
   options: Partial<SessionRecoveryOptions> = {}
-) {
+): Promise<SessionResponseType | null> {
   const config = { ...defaultOptions, ...options };
   const sessionToken = req.cookies.get(config.cookieName)?.value;
 
@@ -49,53 +59,48 @@ export async function getSessionFromCookie(
     if (error) throw error;
 
     // Verify the session is still valid
-    if (!session || session.expires_at === undefined || session.expires_at <= Date.now() / 1000) {
+    if (!session || session.expires_at === undefined || session.expires_at < Math.floor(Date.now() / 1000)) {
       return null;
     }
 
-    return session;
+    // Ensure we have a proper SessionType
+    const typedSession: SessionType = {
+      access_token: session.access_token,
+      refresh_token: session.refresh_token,
+      expires_at: session.expires_at!
+    };
+
+    return { data: { session: typedSession }, error: null };
   } catch (error) {
-    console.error('Error recovering session:', error);
-    return null;
+    console.error('Error getting session:', error);
+    return { data: { session: null }, error: error as Error };
   }
 }
 
-export function setSessionCookie(
-  res: NextResponse,
-  session: { access_token: string; refresh_token: string; expires_at: number },
+export async function setSessionCookie(
+  res: { cookies: { set: (name: string, value: string, options: { path: string; httpOnly: boolean; secure: boolean; sameSite: 'lax' | 'strict' | 'none'; maxAge: number; }) => void } },
+  session: SessionType,
   options: Partial<SessionRecoveryOptions> = {}
-) {
+): Promise<typeof res> {
   const config = { ...defaultOptions, ...options };
-  const expires = new Date(Date.now() + config.maxAge * 1000);
-
-  // Get the current cookies from the response
-  const cookies = res.cookies;
   
-  // Set the new cookie
-  cookies.set(config.cookieName, session.access_token, {
+  res.cookies.set(config.cookieName, session.access_token, {
     ...config.cookieOptions,
-    expires,
+    maxAge: config.maxAge,
   });
 
-  // Return the updated cookies
-  return cookies;
+  return res;
 }
 
-export function clearSessionCookie(
-  res: NextResponse,
+export async function clearSessionCookie(
+  res: { cookies: { delete: (name: string, options: { path: string; }) => void } },
   options: Partial<SessionRecoveryOptions> = {}
-) {
+): Promise<typeof res> {
   const config = { ...defaultOptions, ...options };
   
-  // Get the current cookies from the response
-  const cookies = res.cookies;
-  
-  // Clear the cookie
-  cookies.set(config.cookieName, '', {
-    ...config.cookieOptions,
-    expires: new Date(0),
+  res.cookies.delete(config.cookieName, {
+    path: config.cookieOptions.path,
   });
 
-  // Return the updated cookies
-  return cookies;
+  return res;
 }

@@ -17,8 +17,8 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
-import { toast } from '@/components/ui/use-toast';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { toast } from 'sonner';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 
 interface ProfileFormProps {
   initialData?: Partial<ProfileFormValues>;
@@ -34,17 +34,17 @@ export function ProfileForm({ initialData, userId }: ProfileFormProps) {
   const form = useForm<ProfileFormValues>({
     resolver: zodResolver(profileFormSchema),
     defaultValues: {
-      full_name: initialData?.full_name || '',
-      occupation: initialData?.occupation || '',
-      bio: initialData?.bio || '',
-      location: initialData?.location || '',
-      website: initialData?.website || '',
-      linkedin_url: initialData?.linkedin_url || '',
-      github_url: initialData?.github_url || '',
+      full_name: initialData?.full_name ?? '',
+      occupation: initialData?.occupation ?? '',
+      bio: initialData?.bio ?? '',
+      location: initialData?.location ?? '',
+      website: initialData?.website ?? '',
+      linkedin_url: initialData?.linkedin_url ?? '',
+      github_url: initialData?.github_url ?? '',
     },
   });
 
-  async function onSubmit(data: ProfileFormValues) {
+  const onSubmit = async (data: ProfileFormValues) => {
     try {
       setIsLoading(true);
       
@@ -56,27 +56,18 @@ export function ProfileForm({ initialData, userId }: ProfileFormProps) {
         })
         .eq('id', userId);
 
-      if (error) {
-        throw error;
-      }
+      if (error) throw error;
 
-      toast({
-        title: 'Profile updated',
-        description: 'Your profile has been updated successfully.',
-      });
+      toast.success('Your profile has been updated successfully.');
       
       router.refresh();
     } catch (error) {
       console.error('Error updating profile:', error);
-      toast({
-        title: 'Error',
-        description: 'Failed to update profile. Please try again.',
-        variant: 'destructive',
-      });
+      toast.error('Failed to update profile. Please try again.');
     } finally {
       setIsLoading(false);
     }
-  }
+  };
 
   return (
     <Card>
@@ -207,11 +198,9 @@ export function ProfileForm({ initialData, userId }: ProfileFormProps) {
               />
             </div>
             
-            <CardFooter className="px-0 pt-6">
-              <Button type="submit" disabled={isLoading}>
-                {isLoading ? 'Saving...' : 'Save Changes'}
-              </Button>
-            </CardFooter>
+            <Button type="submit" disabled={isLoading}>
+              {isLoading ? 'Saving...' : 'Save Changes'}
+            </Button>
           </form>
         </Form>
       </CardContent>

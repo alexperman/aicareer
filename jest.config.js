@@ -12,7 +12,7 @@ module.exports = {
       {
         tsconfig: 'tsconfig.jest.json',
         diagnostics: true,
-        isolatedModules: false
+        isolatedModules: false,
       }
     ],
     '^.+\\.(js|jsx)$': [
@@ -33,7 +33,7 @@ module.exports = {
     'ts-jest': {
       tsconfig: 'tsconfig.jest.json',
       diagnostics: true,
-      isolatedModules: false
+      isolatedModules: false,
     }
   },
   testEnvironmentOptions: {

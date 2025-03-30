@@ -1,117 +1,93 @@
 import React from 'react';
-import { describe, it, expect, beforeEach, afterEach, jest } from '@jest/globals';
-import { render, screen } from '@testing-library/react';
-import '@testing-library/jest-dom';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { ProfileForm } from '@/components/profile/ProfileForm';
+import { toast } from 'sonner';
+import { useRouter } from 'next/navigation';
 
-// Define proper TypeScript interface for the component props
-interface ProfileFormProps {
-  initialData?: {
-    full_name?: string;
-    occupation?: string;
-    bio?: string;
-    location?: string;
-    website?: string;
-    linkedin_url?: string;
-    github_url?: string;
-  };
-}
-
-// Mock the ProfileForm component
-jest.mock('@/components/profile/ProfileForm', () => ({
-  ProfileForm: ({ initialData }: ProfileFormProps) => (
-    <div data-testid="profile-form">
-      <input data-testid="full-name" defaultValue={initialData?.full_name || ''} />
-      <input data-testid="occupation" defaultValue={initialData?.occupation || ''} />
-      <textarea data-testid="bio" defaultValue={initialData?.bio || ''} />
-      <input data-testid="location" defaultValue={initialData?.location || ''} />
-      <input data-testid="website" defaultValue={initialData?.website || ''} />
-      <input data-testid="linkedin" defaultValue={initialData?.linkedin_url || ''} />
-      <input data-testid="github" defaultValue={initialData?.github_url || ''} />
-      <button>Save Changes</button>
-    </div>
-  )
+jest.mock('sonner', () => ({
+  toast: {
+    success: jest.fn(),
+    error: jest.fn(),
+  },
 }));
 
-describe('Profile Form Component', () => {
+jest.mock('next/navigation', () => ({
+  useRouter: jest.fn(),
+}));
+
+jest.mock('@/utils/supabase/client', () => ({
+  createClient: jest.fn(() => ({
+    from: jest.fn().mockReturnThis(),
+    update: jest.fn().mockReturnThis(),
+    eq: jest.fn().mockResolvedValue({ error: null }),
+  })),
+}));
+
+describe('ProfileForm', () => {
+  const mockUserId = 'test-user-id';
   const mockInitialData = {
-    full_name: 'John Doe',
-    occupation: 'Software Engineer',
-    bio: 'A passionate developer',
-    location: 'San Francisco, CA',
-    website: 'https://johndoe.com',
-    linkedin_url: 'https://linkedin.com/in/johndoe',
-    github_url: 'https://github.com/johndoe',
+    full_name: 'Test User',
+    occupation: 'Developer',
+    bio: 'Test bio',
+    location: 'Test Location',
+    website: 'https://test.com',
+    linkedin_url: 'https://linkedin.com/test',
+    github_url: 'https://github.com/test',
   };
 
   beforeEach(() => {
     jest.clearAllMocks();
+    (useRouter as jest.Mock).mockReturnValue({
+      refresh: jest.fn(),
+    });
   });
 
-  afterEach(() => {
-    jest.resetAllMocks();
+  it('renders form fields with initial data', () => {
+    render(<ProfileForm initialData={mockInitialData} userId={mockUserId} />);
+
+    expect(screen.getByLabelText('Full Name')).toHaveValue(mockInitialData.full_name);
+    expect(screen.getByLabelText('Occupation')).toHaveValue(mockInitialData.occupation);
+    expect(screen.getByLabelText('Bio')).toHaveValue(mockInitialData.bio);
+    expect(screen.getByLabelText('Location')).toHaveValue(mockInitialData.location);
+    expect(screen.getByLabelText('Website')).toHaveValue(mockInitialData.website);
+    expect(screen.getByLabelText('LinkedIn')).toHaveValue(mockInitialData.linkedin_url);
+    expect(screen.getByLabelText('GitHub')).toHaveValue(mockInitialData.github_url);
   });
 
-  it('renders the form with initial data', () => {
-    render(
-      <div data-testid="profile-form">
-        <input data-testid="full-name" defaultValue={mockInitialData.full_name} />
-        <input data-testid="occupation" defaultValue={mockInitialData.occupation} />
-        <textarea data-testid="bio" defaultValue={mockInitialData.bio} />
-        <input data-testid="location" defaultValue={mockInitialData.location} />
-        <input data-testid="website" defaultValue={mockInitialData.website} />
-        <input data-testid="linkedin" defaultValue={mockInitialData.linkedin_url} />
-        <input data-testid="github" defaultValue={mockInitialData.github_url} />
-      </div>
-    );
+  it('submits form with updated data', async () => {
+    const mockForm = {
+      full_name: 'Updated User',
+      occupation: 'Updated Developer',
+      bio: 'Updated bio',
+      location: 'Updated Location',
+      website: 'https://updated.com',
+      linkedin_url: 'https://linkedin.com/updated',
+      github_url: 'https://github.com/updated',
+    };
 
-    // Check if form fields are rendered with initial data
-    const fullNameInput = screen.getByTestId('full-name');
-    const occupationInput = screen.getByTestId('occupation');
-    const bioTextarea = screen.getByTestId('bio');
-    const locationInput = screen.getByTestId('location');
-    const websiteInput = screen.getByTestId('website');
-    const linkedinInput = screen.getByTestId('linkedin');
-    const githubInput = screen.getByTestId('github');
+    render(<ProfileForm initialData={mockInitialData} userId={mockUserId} />);
 
-    // Use Jest DOM's built-in matchers
-    expect(fullNameInput).toHaveProperty('defaultValue', mockInitialData.full_name);
-    expect(occupationInput).toHaveProperty('defaultValue', mockInitialData.occupation);
-    expect(bioTextarea).toHaveProperty('defaultValue', mockInitialData.bio);
-    expect(locationInput).toHaveProperty('defaultValue', mockInitialData.location);
-    expect(websiteInput).toHaveProperty('defaultValue', mockInitialData.website);
-    expect(linkedinInput).toHaveProperty('defaultValue', mockInitialData.linkedin_url);
-    expect(githubInput).toHaveProperty('defaultValue', mockInitialData.github_url);
-  });
+    // Fill form fields
+    fireEvent.change(screen.getByLabelText('Full Name'), { target: { value: mockForm.full_name } });
+    fireEvent.change(screen.getByLabelText('Occupation'), { target: { value: mockForm.occupation } });
+    fireEvent.change(screen.getByLabelText('Bio'), { target: { value: mockForm.bio } });
+    fireEvent.change(screen.getByLabelText('Location'), { target: { value: mockForm.location } });
+    fireEvent.change(screen.getByLabelText('Website'), { target: { value: mockForm.website } });
+    fireEvent.change(screen.getByLabelText('LinkedIn'), { target: { value: mockForm.linkedin_url } });
+    fireEvent.change(screen.getByLabelText('GitHub'), { target: { value: mockForm.github_url } });
 
-  it('renders the form with empty values when no initial data', () => {
-    render(
-      <div data-testid="profile-form">
-        <input data-testid="full-name" defaultValue="" />
-        <input data-testid="occupation" defaultValue="" />
-        <textarea data-testid="bio" defaultValue="" />
-        <input data-testid="location" defaultValue="" />
-        <input data-testid="website" defaultValue="" />
-        <input data-testid="linkedin" defaultValue="" />
-        <input data-testid="github" defaultValue="" />
-      </div>
-    );
+    // Submit form
+    const submitButton = screen.getByRole('button', { name: /save changes/i });
+    fireEvent.click(submitButton);
 
-    // Check if form fields are rendered with empty values
-    const fullNameInput = screen.getByTestId('full-name');
-    const occupationInput = screen.getByTestId('occupation');
-    const bioTextarea = screen.getByTestId('bio');
-    const locationInput = screen.getByTestId('location');
-    const websiteInput = screen.getByTestId('website');
-    const linkedinInput = screen.getByTestId('linkedin');
-    const githubInput = screen.getByTestId('github');
+    // Wait for async operations and verify button state
+    await waitFor(() => {
+      expect(submitButton).toHaveClass('disabled:pointer-events-none');
+    });
 
-    // Use Jest DOM's built-in matchers
-    expect(fullNameInput).toHaveProperty('defaultValue', '');
-    expect(occupationInput).toHaveProperty('defaultValue', '');
-    expect(bioTextarea).toHaveProperty('defaultValue', '');
-    expect(locationInput).toHaveProperty('defaultValue', '');
-    expect(websiteInput).toHaveProperty('defaultValue', '');
-    expect(linkedinInput).toHaveProperty('defaultValue', '');
-    expect(githubInput).toHaveProperty('defaultValue', '');
+    // Wait for the toast to be called
+    await waitFor(() => {
+      expect(toast.success).toHaveBeenCalledWith('Your profile has been updated successfully.');
+    });
   });
 });
