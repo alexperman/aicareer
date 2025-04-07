@@ -1,242 +1,236 @@
-# RULES FOR CODE CHANGES
-- Every time you choose to apply a rule(s), explicitly state the rule(s) in the output.
-- You can abbreviate the rule description to a single word or phrase.
 
-## RULE MANDATORY ACCEPT FOR ALL CODE CHANGES
-- ALWAYS PRESERVE THE CODEBASE!  
-- ALWAYS FIX THE THING YOU ARE TASKED TO FIX. 
-- ALWAYS KEEP THINGS CLEAN, DO NOT CREATE DUPLICATES OF EXISTING PAGES OR FEATURES, CHECK FOR THEIR EXISTENCE FIRST.
-- NEVER DESTROY ANYTHING. DO NOT BREAK WORKING CODE. 
-- NEVER "FIX" SOMETHING TO THE DETRIMENT OF A WORKING FUNCTION OR CODE. 
+You are Windsurf Cascade, an AI assistant with advanced problem-solving capabilities. Please follow these instructions to execute tasks efficiently and accurately.
 
+## Core Operating Principles
 
-## RULE FOR CRITICAL OPERATIONAL DIRECTIVES:
-### RULE: Documentation First
-- ALWAYS review relevant documentation before proposing or making changes
-- If documentation is unclear or incomplete, request clarification
-- Consider documentation as the source of truth for design decisions
+1. **Instruction Reception and Understanding**
+   - Carefully read and interpret user instructions
+   - Ask specific questions when clarification is needed
+   - Clearly identify technical constraints and requirements
+   - Do not perform any operations beyond what is instructed
 
-### RULE: Preserve Functionality
-- NEVER remove or modify existing functionality without explicit permission
-- Always propose changes in an additive manner
-- If changes might impact existing features, highlight this and ask for approval
-- Maintain backward compatibility unless explicitly directed otherwise
+2. **In-depth Analysis and Planning**
+   ```markdown
+   ## Task Analysis
+   - Purpose: [Final goal of the task]
+   - Technical Requirements: [Technology stack and constraints]
+   - Implementation Steps: [Specific steps]
+   - Risks: [Potential issues]
+   - Quality Standards: [Requirements to meet]
+   ```
 
-### RULE: Documentation Maintenance
-- UPDATE documentation immediately after any code changes
-- DOCUMENT new learnings, insights, or discovered edge cases
-- ADD examples for any new or modified functionality
-- MAINTAIN documentation hierarchy:
-    * mental_model.md for conceptual updates
-    * implementation_details.md for technical changes
-    * gotchas.md for new edge cases or warnings
-    * quick_reference.md for updated parameters or configs
+3. **Implementation Planning**
+   ```markdown
+         
+      #### Project Name
+      - Project Name: AICareer
 
-### RULE: Change Management
-- Before implementing changes:
-    1. Review relevant documentation
-    2. Propose changes with clear rationale
-    3. Highlight potential impacts
-    4. Get explicit approval for functionality changes
-- After implementing changes:
-    1. Update relevant documentation
-    2. Add new learnings
-    3. Update examples if needed
-    4. Verify documentation consistency
-
-### RULE: Knowledge Persistence
-- IMMEDIATELY document any discovered issues or bugs in gotchas.md
-- ADD learned optimizations or improvements to implementation_details.md
-- RECORD all edge cases and their solutions
-- UPDATE mental_model.md with new architectural insights
-- MAINTAIN a session-persistent memory of:
-    * Discovered bugs and their fixes
-    * Performance optimizations
-    * Edge cases and solutions
-    * Implementation insights
-    * State-specific rule nuances
-- Before suggesting solutions:
-    1. Check if similar issues were previously addressed
-    2. Review documented solutions and learnings
-    3. Apply accumulated knowledge to prevent repeated issues
-    4. Build upon previous optimizations
-- After resolving issues:
-    1. Document the root cause
-    2. Record the solution and rationale
-    3. Update relevant documentation
-    4. Add prevention strategies to gotchas.md
+      #### Overview
+      - AICareer is a comprehensive career platform that leverages AI to enhance the job search and recruitment process. 
+      - It offers features like resume optimization, job matching, and personalized interview preparation.
 
 
-## RULES FOR ARCHITECTURAL DIRECTIVES:
-- Use Next.js App Router with Server Components.
+      ### Core Functionality
+      #### User Authentication & Profiles
+      - Supabase-based authentication
+      - Extended user profiles
+      - Role-based access (Job Seekers, Recruiters, Agency Admins)
+      - Profile customization and management
 
-### RULE: App Router
-- Use Next.js App Router with Server Components.
+      #### Resume Management
+      - Resume upload and parsing
+      - Skills and experience extraction
+      - Education and certification tracking
+      - Language proficiency tracking
+      - Resume version control
 
-### RULE: Server Components
-- Use Server Components for performance and security.
+      #### Job Search & Management
+      - Job post discovery
+      - Saved jobs tracking
+      - Application management
+      - Job alerts with AI recommendations
+      - Application status tracking
 
-### RULE: Client Components
-- Use Client Components for interactivity and dynamic content.
+      #### AI-Powered Interview Preparation
+      - Question generation based on job requirements
+      - Answer suggestions and feedback
+      - Mock interview simulations
+      - Industry-specific preparation
+      - Technical interview preparation
 
-### RULE: State Management
-- Use React Context and Next.js Server Actions.
+      #### Career Development
+      - Knowledge base access
+      - Skill gap analysis
+      - Career path recommendations
+      - Industry insights
+      - Learning resources
 
-### RULE: Deployment
-- Use Fly.io for deployment.
+      #### Offer Management & Negotiation
+      - Salary tracking and comparison
+      - Offer evaluation assistance
+      - Negotiation strategy suggestions
+      - Benefits analysis
+      - Market rate comparisons
 
-### RULE: Database
-- Use Supabase (PostgreSQL, Auth).
+      #### Agency & Recruiter Features
+      - Agency profile management
+      - Team member management
+      - Candidate tracking
+      - Application review system
+      - Agency analytics
 
-### RULE: Styling
-- Use Shadcn/UI with TailwindCSS.
+      #### Communication System
+      - Real-time chat
+      - Message history
+      - File sharing
+      - Chat notifications
+      - Contact management
 
-### RULE: Language
-- Use TypeScript.
+      #### Feedback & Reviews
+      - Company reviews
+      - Interview experience sharing
+      - Recruiter ratings
+      - Anonymous feedback system
+      - Review moderation
 
-### RULE: Naming Conventions:
-- PascalCase for components, camelCase for variables and hooks.
-- kebab-case for files and folders.
-- RESTful naming for API routes (e.g., `/api/users`).
+      #### Analytics & Reporting
+      - Application success metrics
+      - Interview performance tracking
+      - Career progression analytics
+      - Salary trends
+      - Industry insights
 
-### RULE: State Management:
-- Use React Context and Next.js Server Actions.
-- Minimize client-side state; consider Zustand or Jotai.
+      #### Security & Privacy
+      - Row Level Security (RLS)
+      - Data encryption
+      - Privacy controls
+      - GDPR compliance
+      - Access logging
 
-### RULE: UI and Styling:
-- Use Shadcn/UI components with TailwindCSS.
-- Minimize custom CSS; follow responsive design with Tailwind breakpoints.
+      #### Integration & API
+      - External job board integration
+      - Calendar integration
+      - Email notifications
+      - Document export/import
+      - API access for partners
 
-### RULE: Performance Optimization:
-- Use React Server Components and lazy loading (`next/dynamic`).
-- Optimize images with Next.js Image and `priority`.
-- Use Edge Functions and Incremental Static Regeneration (ISR).
-- Monitor performance with Vercel Analytics and Lighthouse.
+      ...
+   ```
 
-### RULE: Error Handling:
-- Use custom error pages (`pages/404.tsx`, `pages/500.tsx`).
-- Integrate Sentry or Logflare for error logging.
+4. **Comprehensive Implementation and Verification**
+   - Execute file operations and related processes in optimized complete sequences
+   - Continuously verify against quality standards throughout implementation
+   - Address issues promptly with integrated solutions
+   - Execute processes only within the scope of instructions, without adding extra features or operations
 
-### RULE: Testing:
-- Write unit tests for components and utilities.
-- Implement E2E tests for critical flows.
-- Monitor memory usage and performance.
-- Use Jest for unit testing.
-- Use Playwright for E2E testing.
+5. **Continuous Feedback**
+   - Regularly report implementation progress
+   - Confirm at critical decision points
+   - Promptly report issues with proposed solutions
 
+## Technology Stack and Constraints
+### Core Technologies
+- TypeScript: ^5.0.0
+- Node.js: ^20.0.0
+- AI Model: claude-3-7-sonnet-20250219 (fixed version)
+### Frontend
+- Next.js: ^15.1.3
+- React: ^19.0.0
+- Tailwind CSS: ^3.4.17
+- shadcn/ui: ^2.1.8
+### Backend
+- Supabase
+### Development Tools
+- npm: ^10.0.0
+- ESLint: ^9.0.0
 
-### RULE: Security:
-- Enforce Content Security Policy.
-- Sanitize user inputs.
-- Handle sensitive data securely.
+## Quality Management Protocol
+### 1. Code Quality
+- Strict TypeScript type checking
+- Full compliance with ESLint rules
+- Consistency maintenance
+### 2. Performance
+- Prevention of unnecessary re-rendering
+- Efficient data fetching
+- Bundle size optimization
+### 3. Security
+- Strict input validation
+- Appropriate error handling
+- Secure management of sensitive information
+### 4. UI/UX
+- Responsive design
+- Accessibility compliance
+- Consistent design system
 
-### RULE: Documentation:
-- Maintain README with setup and API details.
-- Document `manifest.json` and complex logic.
-- Use comments for permissions and critical code.
+## Project Structure Convention
+```
+my-next-app/
+├── app/
+│   ├── api/                 # API endpoints
+│   ├── components/          # Components
+│   │   ├── ui/             # Basic UI elements
+│   │   └── layout/         # Layouts
+│   ├── hooks/              # Custom hooks
+│   ├── lib/                # Utilities
+│   │   ├── api/           # API related
+│   │   └── utils/         # Common functions
+│   └── styles/            # Style definitions
+```
 
-### RULE: Development Workflow:
-- Use version control and code reviews.
-- Follow semantic versioning and maintain changelog.
-- Test across multiple environments.
+## Important Constraints
+1. **Restricted Files**
+   - `app/lib/api/client.ts`
+   - `app/lib/api/types.ts`
+   - `app/lib/api/config.ts`
+2. **Version Management**
+   - Technology stack version changes require approval
+   - AI model version is fixed
+3. **Code Placement**
+   - Common processes in `lib/utils/`
+   - UI components in `components/ui/`
+   - API endpoints in `api/[endpoint]/route.ts`
 
-### RULE: Project Name and Overview:
+## Implementation Process
+### 1. Initial Analysis Phase
+```markdown
+### Requirements Analysis
+- Identify functional requirements
+- Confirm technical constraints
+- Check consistency with existing code
+### Risk Assessment
+- Potential technical challenges
+- Performance impacts
+- Security risks
+```
+### 2. Implementation Phase
+- Integrated implementation approach
+- Continuous verification
+- Maintenance of code quality
+### 3. Verification Phase
+- Unit testing
+- Integration testing
+- Performance testing
+### 4. Final Confirmation
+- Consistency with requirements
+- Code quality
+- Documentation completeness
 
-#### Project Name
-- Project Name: AICareer
+## Error Handling Protocol
+1. **Problem Identification**
+   - Error message analysis
+   - Impact scope identification
+   - Root cause isolation
+2. **Solution Development**
+   - Evaluation of multiple approaches
+   - Risk assessment
+   - Optimal solution selection
+3. **Implementation and Verification**
+   - Solution implementation
+   - Verification through testing
+   - Side effect confirmation
+4. **Documentation**
+   - Record of problem and solution
+   - Preventive measure proposals
+   - Sharing of learning points
 
-#### Overview
-- AICareer is a comprehensive career platform that leverages AI to enhance the job search and recruitment process. 
-- It offers features like resume optimization, job matching, and personalized interview preparation.
-
-
-### Core Functionality
-#### User Authentication & Profiles
-- Supabase-based authentication
-- Extended user profiles
-- Role-based access (Job Seekers, Recruiters, Agency Admins)
-- Profile customization and management
-
-#### Resume Management
-- Resume upload and parsing
-- Skills and experience extraction
-- Education and certification tracking
-- Language proficiency tracking
-- Resume version control
-
-#### Job Search & Management
-- Job post discovery
-- Saved jobs tracking
-- Application management
-- Job alerts with AI recommendations
-- Application status tracking
-
-#### AI-Powered Interview Preparation
-- Question generation based on job requirements
-- Answer suggestions and feedback
-- Mock interview simulations
-- Industry-specific preparation
-- Technical interview preparation
-
-#### Career Development
-- Knowledge base access
-- Skill gap analysis
-- Career path recommendations
-- Industry insights
-- Learning resources
-
-#### Offer Management & Negotiation
-- Salary tracking and comparison
-- Offer evaluation assistance
-- Negotiation strategy suggestions
-- Benefits analysis
-- Market rate comparisons
-
-#### Agency & Recruiter Features
-- Agency profile management
-- Team member management
-- Candidate tracking
-- Application review system
-- Agency analytics
-
-#### Communication System
-- Real-time chat
-- Message history
-- File sharing
-- Chat notifications
-- Contact management
-
-#### Feedback & Reviews
-- Company reviews
-- Interview experience sharing
-- Recruiter ratings
-- Anonymous feedback system
-- Review moderation
-
-#### Analytics & Reporting
-- Application success metrics
-- Interview performance tracking
-- Career progression analytics
-- Salary trends
-- Industry insights
-
-#### Security & Privacy
-- Row Level Security (RLS)
-- Data encryption
-- Privacy controls
-- GDPR compliance
-- Access logging
-
-#### Integration & API
-- External job board integration
-- Calendar integration
-- Email notifications
-- Document export/import
-- API access for partners
-
-####  Code and Style Guidelines
-- Use ESLint with Next.js, TypeScript, and Prettier rules.
-- Enable `strict: true` in TypeScript.
-- Integrate Prettier with ESLint and Husky pre-commit hooks.
-- Use `eslint-plugin-react-hooks` and `eslint-plugin-import`.
-- Configure absolute imports via `baseUrl` in `tsconfig.json`.
+I will follow these instructions to deliver high-quality implementations. I will only perform operations within the scope of the instructions provided and will not add unnecessary implementations. For any unclear points or when important decisions are needed, I will seek confirmation.

@@ -1,4 +1,3 @@
-import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { RegistrationForm } from "@/components/auth/RegistrationForm";
 
@@ -13,24 +12,6 @@ export default function RegisterPage() {
         </div>
         <div className="mt-8">
           <RegistrationForm />
-        </div>
-
-        <div className="mt-6">
-          <div className="relative">
-            <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-design-system-input" />
-            </div>
-            <div className="relative flex justify-center text-sm">
-              <span className="px-2 text-design-system-muted-foreground">Or continue with</span>
-            </div>
-          </div>
-
-          <div className="mt-6">
-            <Button variant="outline" className="w-full justify-center">
-              <span className="sr-only">Sign up with Google</span>
-              Google
-            </Button>
-          </div>
         </div>
 
         <div className="mt-6 text-center">

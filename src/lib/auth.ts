@@ -1,22 +1,44 @@
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
 
-export const createServerSupabaseClient = () => {
-  return createServerComponentClient({
-    cookies: {
-      get(name: string) {
-        return process.cookies[name]
+interface SignInParams {
+  user: any;
+  isNewUser: boolean;
+}
+
+export const authConfig = {
+  providers: [
+    {
+      id: 'google',
+      name: 'Google',
+      type: 'oauth',
+      scope: 'email profile openid',
+      params: {
+        response_type: 'code',
+        access_type: 'offline',
+        redirect_uri: `${window.location.origin}/auth/callback`,
       },
-      set(name: string, value: string) {
-        process.cookies[name] = value
-      },
-      remove(name: string) {
-        delete process.cookies[name]
+      token: {
+        endpoint: 'https://oauth2.googleapis.com/token',
+        format: 'json',
       },
     },
+  ],
+  callbacks: {
+    async signIn({ user, isNewUser }: SignInParams) {
+      return true;
+    },
+  },
+};
+
+export const createServerSupabaseClient = () => {
+  return createServerComponentClient({
+    auth: authConfig,
   })
 }
 
 export const createClientSupabaseClient = () => {
-  return createClientComponentClient()
+  return createClientComponentClient({
+    auth: authConfig,
+  })
 }

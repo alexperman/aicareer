@@ -1,4 +1,3 @@
-import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { LoginForm } from "@/components/auth/LoginForm";
 
@@ -19,24 +18,6 @@ export default function LoginPage() {
           <Link href="/auth/forgot-password" className="text-sm font-medium text-design-primary hover:text-design-primary/80">
             Forgot your password?
           </Link>
-        </div>
-
-        <div className="mt-6">
-          <div className="relative">
-            <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-design-input" />
-            </div>
-            <div className="relative flex justify-center text-sm">
-              <span className="px-2 text-design-muted-foreground">Or continue with</span>
-            </div>
-          </div>
-
-          <div className="mt-6">
-            <Button variant="outline" className="w-full justify-center">
-              <span className="sr-only">&quot;Sign in with Google&quot;</span>
-              Google
-            </Button>
-          </div>
         </div>
 
         <div className="mt-6 text-center">
